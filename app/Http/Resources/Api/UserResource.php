@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Enum\UserEnum;
 
 class UserResource extends JsonResource
 {
@@ -12,23 +13,12 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        switch ($this->status){
-            case -1:
-                $this->status = '已删除';
-                break;
-            case 0:
-                $this->status = '正常';
-                break;
-            case 1:
-                $this->status = '冻结';
-                break;
-        }
         return [
-            'id'=>$this->id,
+            'id' => $this->id,
             'name' => $this->name,
-            'status' => $this->status,
-            'created_at'=>(string)$this->created_at,
-            'updated_at'=>(string)$this->updated_at
+            'status' => UserEnum::getStatusName($this->status),
+            'created_at' => (string)$this->created_at,
+            'updated_at' => (string)$this->updated_at
         ];
     }
 }
