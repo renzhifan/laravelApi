@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i=1;$i++;$i<11){
+        for($i=1;$i<11;$i++){
             User::insert([
                 'name'=>'test'.$i,
                 'password'=>'password',
