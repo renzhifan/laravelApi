@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
         for($i=1;$i<11;$i++){
             User::insert([
                 'name'=>'test'.$i,
-                'password'=>'password',
+                'password'=>bcrypt('password'),
             ]);
         }
     }
