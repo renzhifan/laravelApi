@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use App\Jobs\Api\SaveLastTokenJob;
 // 注意，我们要继承的是 jwt 的 BaseMiddleware
 class RefreshTokenMiddleware extends BaseMiddleware
 {
@@ -40,8 +41,8 @@ class RefreshTokenMiddleware extends BaseMiddleware
                 Auth::guard('api')->onceUsingId($this->auth->manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray()['sub']);
                 //刷新了token，将token存入数据库
                 $user = Auth::guard('api')->user();
-                $user->last_token = $token;
-                $user->save();
+                SaveLastTokenJob::dispatch($user,$token);
+
             } catch (JWTException $exception) {
                 // 如果捕获到此异常，即代表 refresh 也过期了，用户无法刷新令牌，需要重新登录。
                 throw new UnauthorizedHttpException('jwt-auth', $exception->getMessage());

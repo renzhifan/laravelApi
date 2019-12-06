@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\UserRequest;
+use App\Jobs\Api\SaveLastTokenJob;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Api\UserResource;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 class UserController extends Controller
 {
 
@@ -41,12 +43,11 @@ class UserController extends Controller
             if ($user['last_token']) {
                 try{
                     Auth::guard('api')->setToken($user['last_token'])->invalidate();
-                }catch (\TokenExpiredException $e){
+                }catch (TokenExpiredException $e){
                     //因为让一个过期的token再失效，会抛出异常，所以我们捕捉异常，不需要做任何处理
                 }
             }
-            $user->last_token = $token;
-            $user->save();
+            SaveLastTokenJob::dispatch($user,$token);
             return $this->setStatusCode(201)->success(['token' => 'bearer ' . $token]);
         }
         return $this->failed('账号或密码错误', 400);
