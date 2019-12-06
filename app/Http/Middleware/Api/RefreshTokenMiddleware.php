@@ -14,14 +14,10 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 class RefreshTokenMiddleware extends BaseMiddleware
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
-     *
-     * @return mixed
+     * @param $request
+     * @param Closure $next
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|mixed
+     * @throws JWTException
      */
     public function handle($request, Closure $next)
     {
