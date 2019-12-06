@@ -37,8 +37,5 @@ class SaveLastTokenJob implements ShouldQueue
         $user=$this->model;
         $user->last_token=$this->token;
         $user->save();
-//        \Log::info($this->token.'/'.$this->model);
-//        $this->model->last_token = $this->token;
-//        $this->model->save();
     }
 }
