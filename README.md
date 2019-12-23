@@ -23,6 +23,10 @@
 | MySQL| `>= 5.7` |
 | Redis| `>= 5.0.3` |
 
+## 教程
+
+[让Laravel开发Api更得心应手](https://renzhifan.github.io/laravel/%E8%AE%A9Laravel%E5%BC%80%E5%8F%91Api%E6%9B%B4%E5%BE%97%E5%BF%83%E5%BA%94%E6%89%8B/)
+
 ## 安装
 1.先把项目克隆到本地
 
